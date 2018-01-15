@@ -1,0 +1,27 @@
+{
+  "name": "bomweatherstatus",
+  "productName": "BOMWeatherStatus",
+  "version": "1.0.0",
+  "description": "Live BOM weather status in the menubar.",
+  "main": "main.js",
+  "dependencies": {
+    "auto-launch": "^5.0.5",
+    "bootstrap": "^3.3.7",
+    "request": "^2.83.0",
+    "menubar": "^5.2.3"
+  },
+  "devDependencies": {
+    "electron-packager": "^10.1.1",
+    "electron-prebuilt": "^0.37.8"
+  },
+  "scripts": {
+    "test": "electron .",
+    "start": "npx electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/starryalley/BOMWeatherStatus"
+  },
+  "author": "Mark Kuo",
+  "license": "MIT"
+}

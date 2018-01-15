@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <h3 class="text-center">BOM Weather Status <small><span id="version"></span></small></h3>
+        <p class="text-center">by Mark Kuo</p>
+        <p class="text-center"><a href="#" onclick="openExternal('https://github.com/starryalley');">View my GitHub</a></p>
+        <br/>
+        <div id="attribution">
+            Using following open source projects:<br>
+            <ul>
+                <li><a href="#" onclick="openExternal('http://electron.atom.io/');">Electron<span id="electron-version"></span></a></li>
+                <li><a href="#" onclick="openExternal('https://github.com/Teamwork/node-auto-launch');">node-auto-launch</a></li>
+                <li><a href="#" onclick="openExternal('https://github.com/maxogden/menubar');">menubar</a></li>
+                <li><a href="#" onclick="openExternal('https://github.com/twbs/bootstrap/');">bootstrap</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    const shell = require('electron').shell;
+    function openExternal(url) {
+        shell.openExternal(url);
+    }
+    document.getElementById('version').innerHTML = ' ' + require('./package.json').version;
+    document.getElementById('electron-version').innerHTML = ' v' + process.versions.electron;
+</script>
+<script src="renderer.js"></script>
+</html>

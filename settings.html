@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-fluid">
+    <h6>Enter first location in AU <br/>(complete address or simply city, state):</h6>
+    <div class="input-group">
+      <span class="input-group-addon" id="sizing-addon2">1st Location</span>
+      <input type="text" class="form-control" placeholder="complete address or city, state" aria-describedby="sizing-addon2" id="user_location">
+      <!--<span class="input-group-btn">
+        <button class="btn btn-default" type="button" onclick="getCurrentLocation()">
+            <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
+        </button>
+      </span>
+      -->
+    </div>
+
+    <h6>Enter second location in AU (optional):</h6>
+    <div class="input-group">
+      <span class="input-group-addon" id="sizing-addon2">2nd Location</span>
+      <input type="text" class="form-control" placeholder="complete address or city, state" aria-describedby="sizing-addon2" id="user_location_2">
+      <!--<span class="input-group-btn">
+        <button class="btn btn-default" type="button" onclick="getCurrentLocation()">
+            <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
+        </button>
+      </span>
+      -->
+    </div>
+    <button type="button" class="btn btn-default pull-right" id="update-loc-btn" onclick="updateLocation()">Apply</button>
+    <br/><br/>
+    <h6>Menu Title to Display</h6>
+    <form class="form-inline">
+      <div class="form-group">
+        <select class="form-control" id="menu_text_select" onchange="updateMenuText()">
+            <option value="press">Pressure (hPa)</option>
+            <option value="wind_dir">Wind Direction</option>
+            <option value="wind">Wind Speed (km/h)</option>
+            <option value="gust">Gust Speed (km/h)</option>
+            <option value="hum">Relative Humidity (%)</option>
+            <option value="rain">Rain since 9am (Precipitation) (mm)</option>
+            <option value="temp">Air Temperature (&deg;C)</option>
+            <option value="apparent_temp">Apparent (Feels Like) Temperature (&deg;C)</option>
+            <option value="dewpt">Dew Point (&deg;C)</option>
+        </select>
+      </div>
+    </form>
+    <h6>Show Icon</h6>
+    <form class="form-inline">
+      <div class="form-group">
+        <select class="form-control" id="menu_show_icon" onchange="updateMenuIcon()">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+      </div>
+    </form>
+    <h6>Weather Update Interval</h6>
+    <form class="form-inline">
+      <div class="form-group">
+        <select class="form-control" id="update_interval" onchange="updateUpdateInterval()">
+            <option value="1">1 minute</option>
+            <option value="5">5 minutes</option>
+            <option value="10">10 minutes</option>
+            <option value="20">20 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="60">1 hour</option>
+            <option value="180">3 hours</option>
+        </select>
+      </div>
+    </form>
+    </div>
+</body>
+<script>
+    const ipc = require('ipc');
+
+    // read current config to reflect on UI
+    ipc.on('config-update', (config) => {
+        document.getElementById('user_location').value = config.userLocation[0];
+        document.getElementById('user_location_2').value = config.userLocation[1];
+        document.getElementById('menu_text_select').value = config.menuTextItem;
+        document.getElementById('menu_show_icon').value = config.menuIcon;
+        document.getElementById('update_interval').value = config.updateInterval;
+    });
+
+    function updateLocation() {
+        let loc = document.getElementById('user_location').value;
+        let loc2 = document.getElementById('user_location_2').value;
+        ipc.send('update-location', [loc, loc2]);
+    }
+
+    function updateMenuText() {
+        let menuText = document.getElementById('menu_text_select').value;
+        ipc.send('change-menu-title', menuText);
+    }
+
+    function updateMenuIcon() {
+        let showIcon = document.getElementById('menu_show_icon').value;
+        ipc.send('change-menu-icon', showIcon);
+    }
+
+    function updateUpdateInterval() {
+        let updateInterval = document.getElementById('update_interval').value;
+        ipc.send('change-update-interval', updateInterval);
+    }
+
+    /* TODO: still not working
+    function getCurrentLocation() {
+        let location;
+        if ("geolocation" in navigator) {
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 75000,
+            };
+            navigator.geolocation.getCurrentPosition((position) => {
+                alert(position);
+                location = {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude
+                }
+                alert(location);
+            }, (err) => {
+                alert(`ERROR(${err.code}): ${err.message}`);
+            }, options);
+        }
+
+
+    }
+
+    ipc.on('location-updated', (loc) => {
+        alert("got loc:" + loc);
+    });
+    */
+</script>
+<script src="renderer.js"></script>
+</html>

@@ -1,0 +1,10 @@
+{
+    "userLocation":["Melbourne, VIC","Syndey, NSW"],
+    "userLon":[144.9630576,151.2092955],
+    "userLat":[-37.8136276,-33.8688197],
+    "stationUrl":["http://www.bom.gov.au/fwo/IDV60801/IDV60801.95936.json","http://www.bom.gov.au/fwo/IDN60801/IDN60801.94768.json"],
+    "activeLocation":0,
+    "menuTextItem":"apparent_temp",
+    "menuIcon":"no",
+    "updateInterval":20
+}

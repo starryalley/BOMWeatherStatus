@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <style type="text/css">
+        .row-primary{
+            background-color: #8c8c8c;
+        }
+        .row-title {
+            background-color: #dcdcdc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+    <div class="row row-primary">
+        <div class="col-xs-12">
+            <h4 id="user_loc" class="text-center"></h4>
+            <h6 class="text-right"><span id="observatory"></span><br/>
+            [<span id="lat"></span>&deg;/<span id="lon"></span>&deg;]</h6>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <h3 class="text-center"><small>Temperature </small><span id="air_temp"></span>&deg;</h3>
+        </div>
+        <div class="col-xs-6">
+            <h3 class="text-center"><small>Feels Like </small><span id="apparent_t"></span>&deg;</h3>
+        </div>
+    </div>
+    <div class="row row-title">
+        <div class="col-xs-6">
+            <h6>Wind</h6>
+        </div>
+        <div class="col-xs-6">
+            <h6>Rain</h6>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <h5 class="text-center"><span id="wind_dir"></span> <span id="wind_spd_kmh"></span><small> km/h</small></h5>
+            <h5 class="text-center">Gust <span id="gust_kmh"></span><small> km/h</small></h5>
+        </div>
+        <div class="col-xs-6">
+            <h4 class="text-center"><span id="rain_trace"></span> <small>mm</small></h4>
+            <h6 class="text-right"><small> since 9am</small></h6>
+        </div>
+    </div>
+    <div class="row row-title">
+        <div class="col-xs-6">
+            <h6>Humidity</h6>
+        </div>
+        <div class="col-xs-6">
+            <h6>Pressure</h6>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <h3 class="text-center"><span id="rel_hum"></span><small> %</small></h3>
+            <h6 class="text-center"><small>Dew Point:</small> <span id="dewpt"></span>&deg;</h6>
+        </div>
+        <div class="col-xs-6">
+            <h3 class="text-center"><span id="press"> - </span><small> hPa</small></h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+            <h6><small>Last updated:<span id="last_updated"></span> <span id="timezone"></span></small></h6>
+        </div>
+        <div class="col-xs-4"></div>
+        <button type="button" id="update-btn" class="btn btn-default btn-sm" onclick="update_weather()">Refresh</button>
+    </div>
+    </div>
+</body>
+<script>
+    const ipc = require('ipc');
+
+    ipc.on('weather-updated', (json) => {
+        document.getElementById('user_loc').innerHTML = json.user_location;
+        document.getElementById('observatory').innerHTML = json.observatory;
+        document.getElementById('last_updated').innerHTML = json.local_date_time;
+        document.getElementById('timezone').innerHTML = json.timezone;
+        document.getElementById('lat').innerHTML = json.lat;
+        document.getElementById('lon').innerHTML = json.lon;
+        document.getElementById('air_temp').innerHTML = json.air_temp;
+        document.getElementById('apparent_t').innerHTML = json.apparent_t;
+        document.getElementById('rel_hum').innerHTML = json.rel_hum;
+        document.getElementById('dewpt').innerHTML = json.dewpt;
+        if (json.press === undefined || !json.press) {
+            document.getElementById('press').innerHTML = ' - ';
+        } else {
+            document.getElementById('press').innerHTML = json.press;
+        }
+        document.getElementById('rain_trace').innerHTML = json.rain_trace;
+        document.getElementById('wind_dir').innerHTML = json.wind_dir;
+        document.getElementById('wind_spd_kmh').innerHTML = json.wind_spd_kmh;
+        if (json.gust_kmh === undefined || !json.gust_kmh) {
+            document.getElementById('gust_kmh').innerHTML = ' - ';
+        } else {
+            document.getElementById('gust_kmh').innerHTML = json.gust_kmh;
+        }
+    });
+
+    function update_weather() {
+        ipc.send('update-weather', null);
+    }
+</script>
+<script src="renderer.js"></script>
+</html>
