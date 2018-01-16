@@ -3,6 +3,22 @@ BOM Weather Status reads current weather observation data from [BOM Australia](h
 
 User can choose what data to be placed on the status bar. For example, air temperature, relative humidity, precipitation, wind direction, speed or gust, etc.
 
+**Melbourne current weather**
+![screenshot](screenshot/screenshot-1.png)
+
+**Right-click menu**
+
+![screenshot](screenshot/screenshot-2.png)
+
+**Setting window**
+
+![screenshot](screenshot/screenshot-3.png)
+
+**Changing what to show in menubar**
+
+![screenshot](screenshot/screenshot-4.png)
+
+
 ## Weather Data Source
 
 The data source is BOM's [Weather Data Services](http://www.bom.gov.au/catalogue/data-feeds.shtml#obs-ind). It's __limited to Australia__.
@@ -28,3 +44,5 @@ After cloning the repo, install dependencies
 Then run with
 
 ```$ npm test```
+
+Currently it's only tested on MacOS.
