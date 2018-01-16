@@ -4,6 +4,7 @@ BOM Weather Status reads current weather observation data from [BOM Australia](h
 User can choose what data to be placed on the status bar. For example, air temperature, relative humidity, precipitation, wind direction, speed or gust, etc.
 
 **Melbourne current weather**
+
 ![screenshot](screenshots/screenshot-1.png)
 
 **Right-click menu**
@@ -36,7 +37,7 @@ User location lookup is made possible by [Google Geocoding API](https://develope
 3. [BOM place search page](http://www.bom.gov.au/places/search/?q=) can then take the latitude and longitude and find the nearest observation station.
 4. BOM Weather Status will then take the weather data from the nearest observation station.
 
-## Development
+## How to Run
 After cloning the repo, install dependencies
 
 ```$ npm install```
@@ -45,4 +46,8 @@ Then run with
 
 ```$ npm test```
 
-Currently it's only tested on MacOS.
+## Notice
+
+It's my 2-day project trying out Electron and Bootstrap. Expect bugs.
+And it's only tested on my MacOS.
+
