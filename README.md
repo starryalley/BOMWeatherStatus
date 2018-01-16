@@ -4,19 +4,19 @@ BOM Weather Status reads current weather observation data from [BOM Australia](h
 User can choose what data to be placed on the status bar. For example, air temperature, relative humidity, precipitation, wind direction, speed or gust, etc.
 
 **Melbourne current weather**
-![screenshot](screenshot/screenshot-1.png)
+![screenshot](screenshots/screenshot-1.png)
 
 **Right-click menu**
 
-![screenshot](screenshot/screenshot-2.png)
+![screenshot](screenshots/screenshot-2.png)
 
 **Setting window**
 
-![screenshot](screenshot/screenshot-3.png)
+![screenshot](screenshots/screenshot-3.png)
 
 **Changing what to show in menubar**
 
-![screenshot](screenshot/screenshot-4.png)
+![screenshot](screenshots/screenshot-4.png)
 
 
 ## Weather Data Source
