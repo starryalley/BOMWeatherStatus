@@ -13,6 +13,7 @@ const mb = menubar();
 mb.setOption('preloadWindow', true);
 mb.setOption('height', 400);
 mb.setOption('width', 280);
+mb.setOption('tooltip', "BOM Weather Status");
 
 const weather = require('./weather.js');
 const ipcMain = require('electron').ipcMain;
@@ -272,6 +273,7 @@ ipcMain.on('update-location', (event, data) => {
             weather.getWeather(config, (json) => {
                 updateTrayTitle(json);
             });
+            settingsWindow.webContents.send('location-updated');
         }
  
         updateLocationMenuItem();   

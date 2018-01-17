@@ -129,11 +129,10 @@
 
 
     }
-
-    ipc.on('location-updated', (loc) => {
-        alert("got loc:" + loc);
-    });
     */
+    ipc.on('location-updated', (loc) => {
+        new Notification('BOM Weather Status', { body: 'Location Updated!'});
+    });
 </script>
 <script src="renderer.js"></script>
 </html>
