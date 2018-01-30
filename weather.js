@@ -38,7 +38,7 @@ module.exports.setWindow = (window) => {
     mainWindow = window;
 };
 
-module.exports.getWeather = (config, callback) => {
+module.exports.getWeather = (config, callback, nodata_callback) => {
     let url = config.stationUrl[config.activeLocation];
     if (url === undefined || !url) {
         console.log(`Location ${config.userLocation[config.activeLocation]} error, not updating weather`);
@@ -52,6 +52,13 @@ module.exports.getWeather = (config, callback) => {
         try {
             let json = JSON.parse(body);
             let latest = json.observations.data[0];
+
+            //check data, at least we should have temperature
+            if (latest["air_temp"] == null) {
+                console.log("no data for this observation, check if we need to update location");
+                typeof nodata_callback === 'function' && nodata_callback();
+                return;
+            }
 
             console.log("[" + latest.local_date_time + " " +  
                 json.observations.header[0].time_zone + 
@@ -110,6 +117,7 @@ module.exports.updateLocations = (config, callback, err_callback) => {
 
                 //determine final URL to weather data
                 let stationId = station_id_res[1];
+                // note: 60901 will update every 10 min while 60801 30min
                 let productId = 60801;
                 switch(state_res[1]) {
                 case "vic":

@@ -94,7 +94,7 @@ function changeActiveLocation(item) {
     weather.getWeather(config, (json) => {
         updateTrayTitle(json);
         saveConfig(config);
-    });
+    }, null);
 }
 
 let saveConfig = (c) => {
@@ -233,6 +233,16 @@ let updateLocationMenuItem = () => {
     contextMenu = Menu.buildFromTemplate(contextMenuTemplate);
 }
 
+let refreshLocation = () => {
+    weather.updateLocations(config, (loc_index) => {
+        //now update weather for this new location if it's active
+        if (loc_index == config.activeLocation) {
+            console.log("location updated, getting weather again..");
+            weather.getWeather(config, updateTrayTitle, null);
+        }
+    }, null);
+}
+
 mb.on('ready', () => {
     mb.tray.setTitle('');
     mb.tray.on('right-click', () => {
@@ -249,7 +259,7 @@ mb.on('after-create-window', () => {
     mb.window.webContents.once('dom-ready', () => {
         setImmediate(() => {
             weather.setWindow(mb.window);
-            weather.getWeather(config, updateTrayTitle);
+            weather.getWeather(config, updateTrayTitle, refreshLocation);
         });
     });
 
@@ -259,7 +269,7 @@ mb.on('after-create-window', () => {
     console.log("updating weather every " + config.updateInterval + " minutes");
 
     updaterTimeout = setInterval(() => {
-        weather.getWeather(config, updateTrayTitle);
+        weather.getWeather(config, updateTrayTitle, refreshLocation);
     }, config.updateInterval * 1000 * 60);
 });
 
@@ -270,9 +280,7 @@ ipcMain.on('update-location', (event, data) => {
         saveConfig(config);
         //now update weather for this new location if it's active
         if (loc_index == config.activeLocation) {
-            weather.getWeather(config, (json) => {
-                updateTrayTitle(json);
-            });
+            weather.getWeather(config, updateTrayTitle, null);
             settingsWindow.webContents.send('location-updated');
         }
  
@@ -289,7 +297,7 @@ ipcMain.on('update-location', (event, data) => {
 
 ipcMain.on('update-weather', (event, data) => {
     console.log('Updating weather for user location: ' + config.userLocation);
-    weather.getWeather(config, updateTrayTitle);
+    weather.getWeather(config, updateTrayTitle, refreshLocation);
 });
 
 ipcMain.on('change-menu-title', (event, data) => {
@@ -298,7 +306,7 @@ ipcMain.on('change-menu-title', (event, data) => {
     weather.getWeather(config, (json) => {
         updateTrayTitle(json);
         saveConfig(config);
-    });
+    }, null);
 });
 
 ipcMain.on('change-menu-icon', (event, data) => {
@@ -317,7 +325,7 @@ ipcMain.on('change-update-interval', (event, data) => {
     console.log('Changing weather update interval to ' + config.updateInterval + "minutes");
     clearInterval(updaterTimeout);
     updaterTimeout = setInterval(() => {
-        weather.getWeather(config, updateTrayTitle);
+        weather.getWeather(config, updateTrayTitle, null);
     }, config.updateInterval * 1000 * 60);
     saveConfig(config);
 });
