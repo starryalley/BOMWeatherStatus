@@ -75,9 +75,9 @@
     </div>
 </body>
 <script>
-    const ipc = require('ipc');
+    const ipcRenderer = require("electron").ipcRenderer;
 
-    ipc.on('weather-updated', (json) => {
+    ipcRenderer.on('weather-updated', (event, json) => {
         document.getElementById('user_loc').innerHTML = json.user_location;
         document.getElementById('observatory').innerHTML = json.observatory;
         document.getElementById('last_updated').innerHTML = json.local_date_time;
@@ -104,7 +104,7 @@
     });
 
     function update_weather() {
-        ipc.send('update-weather', null);
+        ipcRenderer.send('update-weather', null);
     }
 </script>
 <script src="renderer.js"></script>

@@ -74,10 +74,10 @@
     </div>
 </body>
 <script>
-    const ipc = require('ipc');
+    const ipcRenderer = require("electron").ipcRenderer;
 
     // read current config to reflect on UI
-    ipc.on('config-update', (config) => {
+    ipcRenderer.on('config-update', (event, config) => {
         document.getElementById('user_location').value = config.userLocation[0];
         document.getElementById('user_location_2').value = config.userLocation[1];
         document.getElementById('menu_text_select').value = config.menuTextItem;
@@ -88,22 +88,22 @@
     function updateLocation() {
         let loc = document.getElementById('user_location').value;
         let loc2 = document.getElementById('user_location_2').value;
-        ipc.send('update-location', [loc, loc2]);
+        ipcRenderer.send('update-location', [loc, loc2]);
     }
 
     function updateMenuText() {
         let menuText = document.getElementById('menu_text_select').value;
-        ipc.send('change-menu-title', menuText);
+        ipcRenderer.send('change-menu-title', menuText);
     }
 
     function updateMenuIcon() {
         let showIcon = document.getElementById('menu_show_icon').value;
-        ipc.send('change-menu-icon', showIcon);
+        ipcRenderer.send('change-menu-icon', showIcon);
     }
 
     function updateUpdateInterval() {
         let updateInterval = document.getElementById('update_interval').value;
-        ipc.send('change-update-interval', updateInterval);
+        ipcRenderer.send('change-update-interval', updateInterval);
     }
 
     /* TODO: still not working
@@ -126,11 +126,9 @@
                 alert(`ERROR(${err.code}): ${err.message}`);
             }, options);
         }
-
-
     }
     */
-    ipc.on('location-updated', (loc) => {
+    ipcRenderer.on('location-updated', (event, loc) => {
         new Notification('BOM Weather Status', { body: 'Location Updated!'});
     });
 </script>
