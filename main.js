@@ -219,6 +219,8 @@ let updateTrayTitle = (json) => {
 
     if (config.menuIcon != 'yes')
         mb.tray.setImage(null);
+
+    mb.tray.setContextMenu(contextMenu);
 };
 
 let updateLocationMenuItem = () => {
@@ -231,6 +233,7 @@ let updateLocationMenuItem = () => {
     contextMenuTemplate[locationItemIndex + config.activeLocation].checked = true;
     //rebuild the context menu (MenuItem.label can't be changed dynamically)
     contextMenu = Menu.buildFromTemplate(contextMenuTemplate);
+    mb.tray.setContextMenu(contextMenu);
 }
 
 let refreshLocation = () => {
