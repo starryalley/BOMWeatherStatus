@@ -46,8 +46,16 @@ Then run with
 
 ```$ npm test```
 
-## Notice
 
-It's my 2-day project trying out Electron and Bootstrap. Expect bugs.
-And it's only tested on my MacOS.
+## Platform support
+
+Currently this app only runs on MacOS with full functions. 
+On Windows 10, no icon appears and I have completely no idea how to fix it. I don't use Windows so just leave it as is. 
+On Ubuntu Linux (tested on 17.10) 3 things still break:
+1. I have to "export XDG_CURRENT_DESKTOP=Unity" for the icon to appear
+2. No Icon text is supported so there is not much use for this app
+3. "right" click on icon event is ignored so actually the main weather info window is never shown. 
+
+So I would say this runs on MacOS only.
+
 
