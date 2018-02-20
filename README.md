@@ -50,12 +50,16 @@ Then run with
 ## Platform support
 
 Currently this app only runs on MacOS with full functions. 
-On Windows 10, no icon appears and I have completely no idea how to fix it. I don't use Windows so just leave it as is. 
-On Ubuntu Linux (tested on 17.10) 3 things still break:
-1. I have to "export XDG_CURRENT_DESKTOP=Unity" for the icon to appear
-2. No Icon text is supported so there is not much use for this app
-3. "right" click on icon event is ignored so actually the main weather info window is never shown. 
 
-So I would say this runs on MacOS only.
+On Windows 10, no icon appears and I have completely no idea how to fix it. I don't use Windows so just leave it as is.
+
+On Ubuntu Linux (tested on 17.10 with gnome 3.26):
+1. I have to `export XDG_CURRENT_DESKTOP=Unity` for the icon to appear
+2. No Icon text is supported so there is not much use for this app
+3. "left" click on icon event is ignored so both left/right click on the icon will only show the menu.
+
+Due to 3, actually the main weather info window is never shown. Because of this, I added a menu item in the first place so user can actually open the main window which is 2 clicks away. Not much of a point of using this, thought... 
+
+So I would say this app is only useful on MacOS.
 
 

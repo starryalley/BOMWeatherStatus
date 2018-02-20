@@ -69,7 +69,7 @@ let contextMenuTemplate = [
 let contextMenu = Menu.buildFromTemplate(contextMenuTemplate);
 
 //Where the user location item starts from. Should change if new items are added above
-const locationItemIndex = 5;
+let locationItemIndex = 5;
 
 appLauncher.isEnabled().then((enabled) => {
     contextMenu.items[3].checked = enabled;
@@ -83,13 +83,19 @@ appLauncher.isEnabled().then((enabled) => {
 function changeActiveLocation(item) {
     for (let i = 0; i < config.userLocation.length; i++) {
         contextMenu.items[locationItemIndex + i].checked = false;
+        contextMenuTemplate[locationItemIndex + i].checked = false;
     }
     item.checked = true;
     item.label = "selected";
     for (let i = 0; i < config.userLocation.length; i++) {
-        if (contextMenu.items[locationItemIndex + i].checked)
+        if (contextMenu.items[locationItemIndex + i].checked) {
+            contextMenuTemplate[locationItemIndex + i].checked = true;
             config.activeLocation = i;
+        }
     }
+
+    contextMenu = Menu.buildFromTemplate(contextMenuTemplate);
+    mb.tray.setContextMenu(contextMenu);
 
     weather.getWeather(config, (json) => {
         updateTrayTitle(json);
@@ -154,6 +160,7 @@ let openSettings = () => {
     settingsWindow = new BrowserWindow({
         width: 400, height: 450, resizable: false,
         title: "BOM Weather Status Setting",
+        autoHideMenuBar: true,
     });
 
     settingsWindow.webContents.once('dom-ready', () => {
@@ -173,6 +180,7 @@ let openAbout = () => {
     aboutWindow = new BrowserWindow({
         width: 400, height: 280, resizable: false,
         title: "About BOM Weather Status",
+        autoHideMenuBar: true,
     });
     aboutWindow.loadURL('file://' + __dirname + '/about.html');
     aboutWindow.on('closed', () => {
@@ -219,8 +227,6 @@ let updateTrayTitle = (json) => {
 
     if (config.menuIcon != 'yes')
         mb.tray.setImage(null);
-
-    mb.tray.setContextMenu(contextMenu);
 };
 
 let updateLocationMenuItem = () => {
@@ -233,7 +239,8 @@ let updateLocationMenuItem = () => {
     contextMenuTemplate[locationItemIndex + config.activeLocation].checked = true;
     //rebuild the context menu (MenuItem.label can't be changed dynamically)
     contextMenu = Menu.buildFromTemplate(contextMenuTemplate);
-    mb.tray.setContextMenu(contextMenu);
+    if (process.platform == 'linux')
+        mb.tray.setContextMenu(contextMenu);
 }
 
 let refreshLocation = () => {
@@ -255,6 +262,18 @@ mb.on('ready', () => {
 
 mb.on('after-create-window', () => {
     config = loadConfig();
+
+    if (process.platform == 'linux') {
+        contextMenuTemplate.splice(0, 0, {
+            label: "Open BOMWeatherStatus", click: () => {
+                let p = electron.screen.getCursorScreenPoint();
+                mb.setOption('x', p.x);
+                mb.setOption('y', p.y);
+                mb.showWindow();
+            }
+        });
+        locationItemIndex = 6;
+    }
 
     updateLocationMenuItem();   
 
