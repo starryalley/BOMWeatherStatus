@@ -1,7 +1,7 @@
 {
   "name": "bomweatherstatus",
   "productName": "BOMWeatherStatus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Live BOM weather status in the menubar.",
   "main": "main.js",
   "dependencies": {

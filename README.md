@@ -46,6 +46,10 @@ Then run with
 
 ```$ npm test```
 
+Package using electron-packager:
+
+```$ electron-packager .```
+
 
 ## Platform support
 
