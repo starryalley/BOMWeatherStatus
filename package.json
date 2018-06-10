@@ -9,10 +9,10 @@
     "bootstrap": "^3.3.7",
     "jquery": "^3.3.1",
     "menubar": "^5.2.3",
-    "request": "^2.83.0"
+    "request": "^2.87.0"
   },
   "devDependencies": {
-    "electron-packager": "^10.1.1",
+    "electron-packager": "^10.1.2",
     "electron-prebuilt": "^0.37.8"
   },
   "scripts": {

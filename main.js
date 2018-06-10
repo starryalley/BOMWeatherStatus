@@ -225,7 +225,7 @@ let updateTrayTitle = (json) => {
         mb.tray.setTitle("N/A");
     }
 
-    if (config.menuIcon != 'yes')
+    if (config.menuIcon !== 'yes')
         mb.tray.setImage(null);
 };
 
@@ -239,14 +239,14 @@ let updateLocationMenuItem = () => {
     contextMenuTemplate[locationItemIndex + config.activeLocation].checked = true;
     //rebuild the context menu (MenuItem.label can't be changed dynamically)
     contextMenu = Menu.buildFromTemplate(contextMenuTemplate);
-    if (process.platform == 'linux')
+    if (process.platform === 'linux')
         mb.tray.setContextMenu(contextMenu);
 }
 
 let refreshLocation = () => {
     weather.updateLocations(config, (loc_index) => {
         //now update weather for this new location if it's active
-        if (loc_index == config.activeLocation) {
+        if (loc_index === config.activeLocation) {
             console.log("location updated, getting weather again..");
             weather.getWeather(config, updateTrayTitle, null);
         }
@@ -263,7 +263,7 @@ mb.on('ready', () => {
 mb.on('after-create-window', () => {
     config = loadConfig();
 
-    if (process.platform == 'linux') {
+    if (process.platform === 'linux') {
         contextMenuTemplate.splice(0, 0, {
             label: "Open BOMWeatherStatus", click: () => {
                 let p = electron.screen.getCursorScreenPoint();
@@ -301,7 +301,7 @@ ipcMain.on('update-location', (event, data) => {
     weather.updateLocations(config, (loc_index) => {
         saveConfig(config);
         //now update weather for this new location if it's active
-        if (loc_index == config.activeLocation) {
+        if (loc_index === config.activeLocation) {
             weather.getWeather(config, updateTrayTitle, null);
             settingsWindow.webContents.send('location-updated');
         }
@@ -334,7 +334,7 @@ ipcMain.on('change-menu-title', (event, data) => {
 ipcMain.on('change-menu-icon', (event, data) => {
     const icon_path = path.join(mb.getOption('dir'), 'IconTemplate.png');
     config.menuIcon = data;
-    if (config.menuIcon != 'yes') {
+    if (config.menuIcon !== 'yes') {
         mb.tray.setImage(null);
     } else {
         mb.tray.setImage(icon_path);

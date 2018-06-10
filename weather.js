@@ -54,7 +54,7 @@ module.exports.getWeather = (config, callback, nodata_callback) => {
             let latest = json.observations.data[0];
 
             //check data, at least we should have temperature
-            if (latest["air_temp"] == null) {
+            if (latest["air_temp"] === null) {
                 console.log("no data for this observation, check if we need to update location");
                 typeof nodata_callback === 'function' && nodata_callback();
                 return;
