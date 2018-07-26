@@ -48,7 +48,9 @@ Then run with
 
 Package using electron-packager:
 
-```$ electron-packager .```
+`electron-packager .`
+or
+`electron-packager . --electron-version=2.0.5 --overwrite`
 
 
 ## Platform support
