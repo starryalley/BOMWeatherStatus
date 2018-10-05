@@ -44,6 +44,7 @@ module.exports.getWeather = (config, callback, nodata_callback) => {
         console.log(`Location ${config.userLocation[config.activeLocation]} error, not updating weather`);
         return;
     }
+    console.log("url:" + url);
     request.get(url, (error, response, body) => {
         if (error) {
             console.error("getting bom data failed:" + error);
@@ -148,7 +149,7 @@ module.exports.updateLocations = (config, callback, err_callback) => {
                 }
 
                 //60801 by default, 60903 for ACT only, 60803 for AU-Antarctica only
-                config.stationUrl[i] = `http://www.bom.gov.au/fwo/ID${stateCode}${productId}/ID${stateCode}${productId}.${stationId}.json`;
+                config.stationUrl[i] = `http://reg.bom.gov.au/fwo/ID${stateCode}${productId}/ID${stateCode}${productId}.${stationId}.json`;
                 console.log("BOM weather observation URL for location " + i + 
                     ": " + config.stationUrl[i]);
 
