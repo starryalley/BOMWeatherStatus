@@ -250,7 +250,14 @@ let refreshLocation = () => {
             console.log("location updated, getting weather again..");
             weather.getWeather(config, updateTrayTitle, null);
         }
-    }, null);
+    }, (msg) => {
+        //in case of error
+        dialog.showMessageBox({
+            message: "Update user location failed",
+            detail: msg,
+            buttons: ['OK']
+        });
+    });
 }
 
 mb.on('ready', () => {
