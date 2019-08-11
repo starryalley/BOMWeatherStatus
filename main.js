@@ -18,7 +18,7 @@ mb.setOption('tooltip', "BOM Weather Status");
 const weather = require('./weather.js');
 const ipcMain = require('electron').ipcMain;
 
-process.env.GOOGLE_API_KEY = "AIzaSyDXeSHqE5PX9bWnKt1mGNJxj03IXyPTwFE";
+process.env.GOOGLE_API_KEY = "PUT_YOUR_KEY_HERE";
 
 let settingsWindow;
 let aboutWindow;
