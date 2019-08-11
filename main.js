@@ -1,10 +1,10 @@
-const menubar = require('menubar');
+const { menubar } = require('menubar');
 const electron = require('electron');
 const AutoLaunch = require('auto-launch');
 const path = require('path');
 const fs = require('fs');
 const mkdir = require('mkdirp').sync;
-const dialog = require('dialog');
+const { dialog } = require('electron');
 
 const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
@@ -18,7 +18,7 @@ mb.setOption('tooltip', "BOM Weather Status");
 const weather = require('./weather.js');
 const ipcMain = require('electron').ipcMain;
 
-process.env.GOOGLE_API_KEY = "PUT_GOOGLE_API_KEY_HERE";
+process.env.GOOGLE_API_KEY = "AIzaSyDXeSHqE5PX9bWnKt1mGNJxj03IXyPTwFE";
 
 let settingsWindow;
 let aboutWindow;
@@ -161,6 +161,9 @@ let openSettings = () => {
         width: 400, height: 450, resizable: false,
         title: "BOM Weather Status Setting",
         autoHideMenuBar: true,
+        webPreferences: {
+            nodeIntegration: true
+        }
     });
 
     settingsWindow.webContents.once('dom-ready', () => {

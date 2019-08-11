@@ -5,7 +5,7 @@ let mainWindow;
 
 const address_url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
 let addressToLatLon = (address, callback, err_callback) => {
-    request.get(address_url + address + "&key=" + process.env.GOOGLE_API_KEY,
+    request.get(address_url + encodeURI(address) + "&key=" + process.env.GOOGLE_API_KEY,
                 (error, response, body) => {
         if (error) {
             console.error(error);
@@ -14,16 +14,21 @@ let addressToLatLon = (address, callback, err_callback) => {
         }
         try {
             let json = JSON.parse(body);
-            let formatted_address = json.results[0].formatted_address;
-            let latitude = json.results[0].geometry.location.lat;
-            let longitude = json.results[0].geometry.location.lng;
+            if (json.results && json.results.length > 0 && 'formatted_address' in json.results[0]) {
+                let formatted_address = json.results[0].formatted_address;
+                let latitude = json.results[0].geometry.location.lat;
+                let longitude = json.results[0].geometry.location.lng;
 
-            console.log(
-                `Google Geocoding API => Location: ${formatted_address} -`, 
-                `Latitude: ${latitude} -`, `Longitude: ${longitude}`
-            );
+                console.log(
+                    `Google Geocoding API => Location: ${formatted_address} -`,
+                    `Latitude: ${latitude} -`, `Longitude: ${longitude}`
+                );
 
-            typeof callback === 'function' && callback(latitude, longitude);
+                typeof callback === 'function' && callback(latitude, longitude);
+            } else {
+                console.error("google geocoding api error:" + json.error_message);
+                err_callback("Google geocoding API error:" + json.error_message);
+            }
         } catch (e) {
             console.error("google geocoding api error:" + e + "\nbody:" + body);
             err_callback("Google geocoding API error:" + e + "\nbody:" + body);
