@@ -1,3 +1,8 @@
+
+# Archived. No Longer Maintained.
+
+This was a weekend project for myself to get an idea of electron and javascript and is no longer updated or maintained.
+
 # BOM Weather Status
 BOM Weather Status reads current weather observation data from [BOM Australia](http://www.bom.gov.au) and displays a specific data on the status (menu) bar of the OS.
 
